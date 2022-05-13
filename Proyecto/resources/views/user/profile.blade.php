@@ -1,3 +1,6 @@
+<!--DESCRIPCION: Vista del perfil. Se visualizara los datos de la cuenta asi como sus post
+Si es usuario logueado, podra editarse-->
+
 <x-app-layout>
     <x-slot name="header">
 

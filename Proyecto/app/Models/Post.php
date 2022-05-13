@@ -1,4 +1,5 @@
 <?php
+/*DESCRIPCION: Fichero que establece las relaciones de la Tabla Post con las otras tablas de la BD*/
 
 namespace App\Models;
 

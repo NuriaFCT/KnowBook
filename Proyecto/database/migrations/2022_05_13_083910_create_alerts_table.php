@@ -8,6 +8,8 @@ class CreateAlertsTable extends Migration
 {
     /**
      * Run the migrations.
+     * 
+     *  Creación de la tabla Alert con sus atributos
      *
      * @return void
      */

@@ -1,3 +1,5 @@
+<!--DESCRIPCION: Vista Home donde se visualizara los post de los seguidoresd de la cuenta logueada-->
+
 <x-app-layout>
     <x-slot name="header">
 

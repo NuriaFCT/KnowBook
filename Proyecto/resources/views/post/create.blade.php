@@ -1,3 +1,7 @@
+<!--DESCRIPCION: Vista de creación de post. Será por medio de un formulario que recogerá el metodo store del controlador de libros
+Se accede a este por mediom del menu bar-->
+
+
 <x-app-layout>
     <x-slot name="header">
 

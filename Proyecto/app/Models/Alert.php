@@ -1,5 +1,8 @@
 <?php
 
+/*DESCRIPCION: Fichero que establece las relaciones de la Tabla Alert con las otras tablas de la BD*/
+
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

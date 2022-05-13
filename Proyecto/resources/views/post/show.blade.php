@@ -1,0 +1,1 @@
+<!--DESCRIPCION: Vista en detalle o individual de los post. Se accedera a los comentarios y al contenido entero-->

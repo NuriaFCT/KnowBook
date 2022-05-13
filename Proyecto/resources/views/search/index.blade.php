@@ -1,3 +1,6 @@
+
+<!--DESCRIPCION: Vista de busqueda. En ella habra un campo y dos categorias a elegir para buscar
+En principio no mostrará nada, luego si con una sentenica sql-->
 <x-app-layout>
     <x-slot name="header">
 

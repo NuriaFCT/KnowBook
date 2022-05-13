@@ -1,3 +1,4 @@
+<!--DESCRIPCION: Vista de las alertas que le llega al usuario sobre seguimiento, like o comentario-->
 <x-app-layout>
     <x-slot name="header">
 
