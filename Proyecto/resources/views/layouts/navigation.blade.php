@@ -6,16 +6,48 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                        <x-menu-logo class="block h-10 w-auto fill-current text-gray-600"/>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
+
+                <!--Inicio: Post de los seguidores-->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Inicio') }}
                     </x-nav-link>
                 </div>
+
+                <!--Buscar: Buscar usuarios y post-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('searchs.index')" :active="request()->routeIs('searchs.index')">
+                        {{ __('Buscar') }}
+                    </x-nav-link>
+                </div>
+
+                <!--Mi perfil: Acceso al perfil del usuario logueado-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('users.profile')" :active="request()->routeIs('users.profile')">
+                        {{ __('Mi perfil') }}
+                    </x-nav-link>
+                </div>
+
+                <!--Alertas: Notificaciones de actividad-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('alerts.index')" :active="request()->routeIs('alerts.index')">
+                        {{ __('Alertas') }}
+                    </x-nav-link>
+                </div>
+
+                <!--Subir libro-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                        {{ __('Subir recomendación') }}
+                    </x-nav-link>
+                </div>
+
+
             </div>
 
             <!-- Settings Dropdown -->
