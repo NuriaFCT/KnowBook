@@ -1,9 +1,9 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
+           
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+           
         </x-slot>
 
         <!-- Session Status -->
@@ -38,6 +38,10 @@
                     <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
                     <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <a href="{{route('register')}}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a> 
             </div>
 
             <div class="flex items-center justify-end mt-4">
