@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * DESCRIPCION: Fichero que genera los registros de toda la BD llamando al resto de Seeder (Alimentadores)
+ */
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,11 +18,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+       //Llamada al resto de seeder en un orden en funcion de las foreign key
+        $this->call([
+            RoleSeeder::class,
+            AlertSeeder::class,
+            UserSeeder::class,
+            FollowerSeeder::class,
+            PostSeeder::class,
+            LikeSeeder::class,
+            CommentSeeder::class
+        ]);   
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

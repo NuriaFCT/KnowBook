@@ -21,10 +21,12 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->string('text', 255); 
             $table->timestamps();
-
+            
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('post_id')->constrained('posts');
-            $table->foreignId('comment_replied_id')->constrained('comments');
+
+            //$table->unsignedBigInteger('comment_replied_id')->nullable();
+            $table->foreignId('comment_replied_id')->nullable()->constrained('comments');
         });
     }
 

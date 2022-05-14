@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title',150); 
-            $table->string('description', 255); 
+            $table->string('description', 6500); 
             $table->string('buy_on', 150); 
             $table->date('date_publication');
             $table->string('image',150);  
