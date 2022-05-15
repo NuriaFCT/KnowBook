@@ -41,6 +41,8 @@ Route::get('/searchs', [SearchController::class,'index'])->middleware(['auth'])-
 /*--------------------------------------------Rutas en relacion al Usuario------------------------------------------------------------------------*/
 //Interfaz de perfil donde se visualizara los datos de un usuario asi como su contenido y se podrá acceder a edicion de este si corresponde al de logueado
 Route::get('/user/profile', [UserController::class,'profile'])->middleware(['auth'])->name('users.profile');
+//Acceso al perfil del usuario conectado para su edicion
+Route::get('/configuracion',[UserController::class, 'config'])->middleware(['auth'])->name('config');
 //Guardado de perfil
 Route::post('/user/saveProfile', [UserController::class,'saveProfile'])->middleware(['auth'])->name('user.saveProfile');
 
@@ -55,3 +57,4 @@ Route::get('/posts', [PostController::class,'create'])->middleware(['auth'])->na
 //Ruta para a visualizacion de la imagen
 Route::get('/post/image/{filename?}',[PostController::class, 'getImage'])->middleware(['auth'])->name('post.image');
 //Route::resource('posts', PostController::class);
+

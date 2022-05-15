@@ -22,6 +22,17 @@ class PostController extends Controller
     }
 
     /**
+     * Vista en detalle de los posts
+     * Se accede por medio de search, por ejemplo.
+     * Se activa cuando se pulsa sobre un post previsualizacion previa (card)
+     * Se pasa el id y se dirige a la vista en detalle
+     */
+    public function show($id){
+        $post= Post::findOrFail($id);
+        return view('post.show');
+    }
+
+    /**
      * 
      *  Metodo para almacenar usuarios
      *  Pido que almacene todos los datos a excepción del campo token
@@ -69,6 +80,18 @@ class PostController extends Controller
         return view('post.edit', compact('post'));
     }
 
+    /*
+     Metodo para eliminar usuarios. Incluido foto
+     Se envia por un formulario en la vista y se redirecciona nuevamente a la vista
+     */
+    public function destroy($id)
+    {
+        //$user= User::findOrFail($id);
+        // if(Storage::delete('users/'.$user->image)){
+        Post::destroy($id);
+        //}
+        return redirect()->route('dashboard')->with(['status' => 'Post borrado correctamente']);
+    }
 
     /**
      * Devolver la imagen almacenada, para que se muestre
@@ -78,6 +101,8 @@ class PostController extends Controller
         $file = Storage::disk('posts')->get($filename);
         return new Response($file, 200);
     }
+
+
 
 
 }
