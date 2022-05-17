@@ -43,6 +43,7 @@ Route::get('/searchs', [SearchController::class,'index'])->middleware(['auth'])-
 Route::get('/user/profile', [UserController::class,'profile'])->middleware(['auth'])->name('users.profile');
 //Acceso al perfil del usuario conectado para su edicion
 Route::get('/configuracion',[UserController::class, 'config'])->middleware(['auth'])->name('config');
+//Route::get('/user/edit',[UserController::class, 'edit'])->middleware(['auth'])->name('user.edit');
 //Guardado de perfil
 Route::post('/user/saveProfile', [UserController::class,'saveProfile'])->middleware(['auth'])->name('user.saveProfile');
 

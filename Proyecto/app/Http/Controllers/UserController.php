@@ -42,9 +42,21 @@ class UserController extends Controller
      /**
      * Vista de editar perfil
      */
+    /*
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('user.edit', compact('user')); 
+    }*/
+    
+    /**
+     * Vista de editar perfil
+     */
+    
     public function config()
     {
-        return view('user.edit');
+
+        return view('user.edit'); 
     }
 
 

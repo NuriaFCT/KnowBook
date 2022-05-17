@@ -20,6 +20,7 @@ Si es usuario logueado, podra editarse-->
                               <!--Tanto admin como usuario podran editarase el perfil pero no seguirse asi mismo-->
                               @if(Auth::user()->id == $user->id ) 
                                 <!--Editar. Corresponde a su perfil-->
+                                <!-- <a href="{{--url('/user/'.$user->id.'/edit')--}}">-->
                                 <a href="{{route('config')}}">
                                     <input type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150" style="background-color: #a05a2c;" value="Editar">
                                 </a>
