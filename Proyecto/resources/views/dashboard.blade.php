@@ -14,8 +14,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-message-status class="mb-4" :status="session('status')" /> 
-                    You're logged in!
-                    Funcionara como inicio, es decir, veras el contenido de los seguidores si es que tienes sino se pondra una imagen y texto todo mono
+                   
+
+
+                    iNICIO POST DE SEGUIDORES
+    
+
+            
                 </div>
             </div>
         </div>

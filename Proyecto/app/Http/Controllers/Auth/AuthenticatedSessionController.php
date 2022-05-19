@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Post;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -17,7 +18,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        $datos['posts']=Post::paginate(3);
+
+        //$posts = DB::table('posts')->select('posts.*')->get();
+        return view('auth.login', $datos);
     }
 
     /**

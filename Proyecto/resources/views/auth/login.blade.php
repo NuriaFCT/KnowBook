@@ -57,4 +57,31 @@
             </div>
         </form>
     </x-auth-card>
+
+
+    <div class="px-8">
+        <div class="flex items-stretch -mx-2">
+            @foreach ($posts as $post)
+                <div class="w-1/3 px-2">
+                    <div class="bg-gray-400 h-12">
+                        <div class="max-w-sm rounded overflow-hidden shadow-lg mb-4 me-4"
+                            style="background-color: #f7e5d8; margin-left: 25px">
+                            <img class="w-full" src="{{URL::asset('/img/LogoSinVectorizar.PNG')}}"
+                                alt="Sunset in the mountains">
+                            <div class="px-6 py-4">
+                                <div class="font-bold text-xl mb-2">{{ $post->title }}</div>
+                                <p class="text-gray-700 text-base">
+                                    {{ $post->description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+
+
+
 </x-guest-layout>
