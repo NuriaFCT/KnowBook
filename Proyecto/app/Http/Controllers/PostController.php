@@ -24,12 +24,12 @@ class PostController extends Controller
     /**
      * Vista en detalle de los posts
      * Se accede por medio de search, por ejemplo.
-     * Se activa cuando se pulsa sobre un post previsualizacion previa (card)
+     * Se activa cuando se pulsa sobre un post previsualizacion previa (card) por el vector ojo
      * Se pasa el id y se dirige a la vista en detalle
      */
     public function show($id){
-        $post= Post::findOrFail($id);
-        return view('post.show');
+        $post= Post::find($id);
+        return view('post.show', ['post'=> $post]);
     }
 
     /**
@@ -43,6 +43,9 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+
+        //Tal vez se pueda poner aqui una validacion
+
         $datePost = request()->except('_token');
         if ($request->hasFile('image')) {
 

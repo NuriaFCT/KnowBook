@@ -6,6 +6,8 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Models\Post;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,9 @@ use Illuminate\Http\Request;
 //Nada más acceder al proyecto, se nos pedirá loguearnos
 Route::get('/', function () {
     //return view('welcome');
-    return view('auth.login');
+
+     $datos['posts']=Post::paginate(3);
+    return view('auth.login', $datos);
 });
 
 /*-----------------------Rutas en relacion al Inicio donde se visualizan los post de los seguidores----------------*/
@@ -28,7 +32,13 @@ Route::get('/', function () {
 En caso contrario, se indicara e se incitara hacerlo
 */
 Route::get('/dashboard', function (Request $request) {
-    return view('dashboard');
+
+    //De forma temporal mientras no sepa sacar los post de mis seguidores
+     $datos['posts'] = DB::table('posts')->select('posts.*')->get();
+     //$likes = DB::table('posts')->where()->
+     // $comments
+
+    return view('dashboard', $datos);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
@@ -57,5 +67,10 @@ Route::get('/alerts', [AlertController::class,'index'])->middleware(['auth'])->n
 Route::get('/posts', [PostController::class,'create'])->middleware(['auth'])->name('posts.create');
 //Ruta para a visualizacion de la imagen
 Route::get('/post/image/{filename?}',[PostController::class, 'getImage'])->middleware(['auth'])->name('post.image');
-//Route::resource('posts', PostController::class);
+//Dirige a la vista en detalle del post seleccionado
+Route::get('/posts/{post}', [PostController::class,'show'])->middleware(['auth'])->name('posts.show');
+//Ruta para almacenar la información del formulario de creacion de un post
+Route::get('/posts/store', [PostController::class,'post'])->name('posts.store');
 
+
+//Route::resource('posts', PostController::class);

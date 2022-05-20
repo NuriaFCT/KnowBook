@@ -18,9 +18,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        $datos['posts']=Post::paginate(3);
+      
 
         //$posts = DB::table('posts')->select('posts.*')->get();
+        $datos['posts']=Post::paginate(3);
         return view('auth.login', $datos);
     }
 

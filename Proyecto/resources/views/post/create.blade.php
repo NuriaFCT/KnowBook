@@ -18,7 +18,7 @@ Se accede a este por mediom del menu bar-->
                       <x-message-status class="mb-4" :status="session('status')" />         
                       <!-- Validation Errors -->
                       <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                     <form method="POST" action="{{ url('/dashboard') }}" enctype="multipart/form-data">
+                     <form method="POST" action="{{ route('posts.store')}}" enctype="multipart/form-data">
                          @csrf 
                          @include('post.form')  
                      </form>     

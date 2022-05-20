@@ -55,8 +55,11 @@ class UserController extends Controller
     
     public function config()
     {
+        //$user = User::find(Auth::user()->id);
 
-        return view('user.edit'); 
+        $datos['user']=User::find(Auth::user()->id);
+
+        return view('user.edit', $datos); 
     }
 
 

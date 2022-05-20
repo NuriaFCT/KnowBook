@@ -1,13 +1,27 @@
 <!--DESCRIPCION: Componente usado para la creación y edicion de post. Ahorra codigo-->
 
-<!--Imagen se ha de poner una por defecto-->
+<!--Imagen se ha de puesto una por defecto en caso de no tener. La idea es que al subir la foto, se ponga en su lugar al editar-->
 <div>
+    @if (isset($post->image))
+                
+    @else
+
+    <div class="bg-indigo-300 flex flex-wrap justify-center ">
+        <img class="object-cover" src={{URL::asset('/img/bookpre.jpg')}} style="height: 400px; width:400px;">
+      </div>
+        
+    @endif
+
+
     <x-label for="image" :value="__('Imagen de portada')" />
 
     <x-input id="image" class=" mt-1" type="file" name="image" value="{{ isset($post->image)?$post->image:'' }}" />
     {{-- <img class="inline object-cover w-12 h-12 mr-2 rounded-full" src="{{ route('user.avatar', ['filename'=>Auth::user()->image])}}" alt="Profile image"/> --}}
     <div class="flex flex-wrap justify-center mt-2">
         <div class="w-6/12 sm:w-4/12 px-4">
+
+
+
             <!--<img src="{{-- route('post.image', ['filename'->image])--}}" alt="Imagen de portada" class="shadow rounded max-w-full h-auto align-middle border-none" />--->
             <!-- 
               {{--@if(isset($user->image))--}}

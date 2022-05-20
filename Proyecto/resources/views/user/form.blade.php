@@ -2,6 +2,18 @@
 
 <!--Imagen se ha de poner una por defecto-->
 <div>
+
+    @if (isset($user->image))
+                
+    @else
+
+    <div class="bg-indigo-300 flex flex-wrap justify-center ">
+        <img class="max-w-full h-auto rounded-full" src={{URL::asset('/img/avatar.png')}} style="height: 200px; width:200px;">
+      </div>
+        
+    @endif
+
+
     <x-label for="image_profile" :value="__('Imagen de perfil')" />
 
     <x-input id="image_profile" class=" mt-1" type="file" name="image_profile" value="{{ isset($user->image_profile)?$user->image_profile:'' }}" />
