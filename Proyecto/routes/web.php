@@ -71,6 +71,7 @@ Route::get('/post/image/{filename?}',[PostController::class, 'getImage'])->middl
 Route::get('/posts/{post}', [PostController::class,'show'])->middleware(['auth'])->name('posts.show');
 //Ruta para almacenar la información del formulario de creacion de un post
 Route::get('/posts/store', [PostController::class,'post'])->name('posts.store');
-
+//
+Route::get('/post/edit',[PostController::class, 'edit'])->middleware(['auth'])->name('post.edit');
 
 //Route::resource('posts', PostController::class);
