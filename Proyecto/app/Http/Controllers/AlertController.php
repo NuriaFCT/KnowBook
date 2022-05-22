@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlertController extends Controller
 {
@@ -14,6 +15,9 @@ class AlertController extends Controller
      * @return index
      */
     public function index(){
-        return view('alert.index');
+
+        //Por el momento mientras no se sepa sacar las propias del logueado
+        $datos['alerts'] = DB::table('alerts')->select('alerts.*')->get();
+        return view('alert.index', $datos);
     }
 }

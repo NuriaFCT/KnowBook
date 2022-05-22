@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -34,9 +35,10 @@ class UserController extends Controller
      */
     public function profile(){
 
+        //Queda pendiente sacar el id de los usuarios y del logueado. Tal vez deba hacerlo con otro controlador y reutilizar profile vista
         $user = User::find(Auth::user()->id); //encuentra al usuario logueado, su id
-
-        return view('user.profile', compact('user'));
+        $datos['posts'] = DB::table('posts')->select('posts.*')->get();
+        return view('user.profile', compact('user'), $datos);
     }
 
      /**

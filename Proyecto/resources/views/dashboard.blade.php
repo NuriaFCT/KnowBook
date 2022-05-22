@@ -17,7 +17,7 @@
                    
 
                     @foreach ($posts as $post)
-                            <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; border: 2px solid black; width:100%; height:300px">
+                            <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; width:100%; height:300px">
                                 <tr>
                                     <td rowspan="3" >Imagen</td> <!--por el momento-->
                                     <td colspan="3"><b>{{$post->title}}</b></td>
