@@ -29,16 +29,32 @@ class UserController extends Controller
 
     /**
      * 
-     * Funcion que retorna la vista de un perfil
+     * Funcion que retorna la vista del perfil del usuario logueado
+     * 
+     * Se ha decidido hacer dos controladores para la vista porque se tendria que pasar 
+     * el id del logueado y sus posts, ademas del perfil seleccionado lo que requeriria de parametros
      * 
      * @return profile
      */
-    public function profile(){
+    public function myprofile(){
 
-        //Queda pendiente sacar el id de los usuarios y del logueado. Tal vez deba hacerlo con otro controlador y reutilizar profile vista
+        //Queda pendiente sacar los posts de ese id
         $user = User::find(Auth::user()->id); //encuentra al usuario logueado, su id
         $datos['posts'] = DB::table('posts')->select('posts.*')->get();
         return view('user.profile', compact('user'), $datos);
+    }
+
+
+    /**
+     * Funcion que retorna el perfil del usuario picado
+     * 
+     * @param id
+     * @return profile vista perfil
+     */
+    public function profile($id){
+
+        $user= User::find($id);
+        return view('user.profile', ['user'=> $user]);
     }
 
      /**

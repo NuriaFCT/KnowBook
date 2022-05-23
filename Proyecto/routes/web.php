@@ -49,14 +49,15 @@ La vista que mostrará será igual a la del inicio en caso de ser post.*/
 Route::get('/searchs', [SearchController::class,'index'])->middleware(['auth'])->name('searchs.index');
 
 /*--------------------------------------------Rutas en relacion al Usuario------------------------------------------------------------------------*/
-//Interfaz de perfil donde se visualizara los datos de un usuario asi como su contenido y se podrá acceder a edicion de este si corresponde al de logueado
-Route::get('/user/profile', [UserController::class,'profile'])->middleware(['auth'])->name('users.profile');
+//Interfaz de perfil donde se visualizara los datos del usuario logueado asi como su contenido 
+Route::get('/user/myprofile', [UserController::class,'myprofile'])->middleware(['auth'])->name('users.myprofile');
 //Acceso al perfil del usuario conectado para su edicion
 Route::get('/configuracion',[UserController::class, 'config'])->middleware(['auth'])->name('config');
 //Route::get('/user/edit',[UserController::class, 'edit'])->middleware(['auth'])->name('user.edit');
 //Guardado de perfil
 Route::post('/user/saveProfile', [UserController::class,'saveProfile'])->middleware(['auth'])->name('user.saveProfile');
-
+//Interfaz de perfild de usuario se podra borrar si es admin o seguir en ambos roles
+Route::get('/users/{user}', [UserController::class,'profile'])->middleware(['auth'])->name('users.profile');
 
 /*------Rutas en relacion a la interfaz y controlador de alerts------*/
 //Unica ruta que habrá para este ya que se ira actualizando sobre la misma
@@ -71,7 +72,7 @@ Route::get('/post/image/{filename?}',[PostController::class, 'getImage'])->middl
 Route::get('/posts/{post}', [PostController::class,'show'])->middleware(['auth'])->name('posts.show');
 //Ruta para almacenar la información del formulario de creacion de un post
 Route::get('/posts/store', [PostController::class,'post'])->name('posts.store');
-//
+//Ruta para la edicion de un post desde el show (no funcional)
 Route::get('/post/edit',[PostController::class, 'edit'])->middleware(['auth'])->name('post.edit');
 
 //Route::resource('posts', PostController::class);

@@ -28,7 +28,7 @@
 
                 <!--Mi perfil: Acceso al perfil del usuario logueado-->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('users.profile')" :active="request()->routeIs('users.profile')">
+                    <x-nav-link :href="route('users.myprofile')" :active="request()->routeIs('users.myprofile')">
                         {{ __('Mi perfil') }}
                     </x-nav-link>
                 </div>
