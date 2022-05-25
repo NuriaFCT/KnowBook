@@ -33,12 +33,30 @@ En caso contrario, se indicara e se incitara hacerlo
 */
 Route::get('/dashboard', function (Request $request) {
 
-    //De forma temporal mientras no sepa sacar los post de mis seguidores
-     $datos['posts'] = DB::table('posts')->select('posts.*')->get();
-     //$likes = DB::table('posts')->where()->
-     // $comments
+    //PENDIENTE. Sacar todas las id de los usuarios que siguen al usuario con el que estamos registrados
 
-    return view('dashboard', $datos);
+    //Con esta consulta sacaremos los posts de tus seguidores
+     $posts = DB::table('posts')
+     ->join('users', 'posts.user_id', '=', 'users.id')
+     ->join('followers', 'followers.id_user_follower', '=', 'users.id')
+     ->where('followers.id_user_follower', '=', 17) //aqui va la variable.recorrer con un while
+     ->get();
+
+
+     //Con esta consulta sacaremos el numero de likes por cada post
+     $likes = DB::table('likes')
+     ->select(DB::raw('count(likes.post_id) as contador'))
+     ->where('likes.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
+     ->get();
+
+     //Con esta consulta sacaremos el numero de comentarios de cada post
+     $comments = DB::table('comments')
+     ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
+     ->where('comments.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
+     ->get();
+
+
+    return view('dashboard', ["posts" => $posts, "likes"=>$likes, "comments"=>$comments]);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
