@@ -27,7 +27,8 @@ class FollowerFactory extends Factory
     {
         return [
             
-            'user_id' => $this->faker->numberBetween(1,9) //Del 1 al 9 dentro de los usuarios creados
+            'user_id' => $this->faker->numberBetween(1,9), //Del 1 al 9 dentro de los usuarios creados
+            'id_user_follower'=> $this->faker->numberBetween(1,4) //Algunos tendran seguidores y otros no
         ];
     }
 }
