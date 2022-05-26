@@ -3,13 +3,15 @@
 <!--Imagen se ha de poner una por defecto-->
 <div>
 
-    @if (isset($user->image))
-                
+    @if (isset($user->image_profile))
+      <div class="bg-indigo-300 flex flex-wrap justify-center">
+        <img class="max-w-full h-auto rounded-full"  src="{{url('img/users/'  .$user->image_profile) }}" style="height: 200px; width:200px;">
+      </div>    
     @else
 
-    <div class="bg-indigo-300 flex flex-wrap justify-center ">
+    <div class="bg-indigo-300 flex flex-wrap justify-center">
         <img class="max-w-full h-auto rounded-full" src={{URL::asset('/img/avatar.png')}} style="height: 200px; width:200px;">
-      </div>
+     </div>
         
     @endif
 

@@ -18,8 +18,18 @@
                         <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; border: 2px solid black; width:100%; height:100px">
                             <tr>
                                 <!--Imagen del usuario que realiza la accion-->
-                                <td style="width:10%">
-                                    Imagen del perfil del usuario
+                                @foreach ($users as $user)
+                                    <td style="width:10%">
+                                        @if (isset($user->image_profile))
+                                            <div class="bg-indigo-300 flex flex-wrap justify-center">
+                                            <img class="max-w-full h-auto rounded-full"  src="{{url('img/users/'  .$user->image_profile) }}" style="height: 100px; width:100px;">
+                                            </div>    
+                                        @else
+                                            <div class="bg-indigo-300 flex flex-wrap justify-center">
+                                                <img class="max-w-full h-auto rounded-full" src={{URL::asset('/img/avatar.png')}} style="height: 200px; width:200px;">
+                                            </div>
+                                        @endif
+                                @endforeach
                                 </td>
                                 <!--Accion realizada-->
                                 <td >

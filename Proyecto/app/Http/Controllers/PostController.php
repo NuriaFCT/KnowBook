@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -28,8 +29,22 @@ class PostController extends Controller
      * Se pasa el id y se dirige a la vista en detalle
      */
     public function show($id){
+        //Con esto sacamos el post
         $post= Post::find($id);
-        return view('post.show', ['post'=> $post]);
+
+         //Con esta consulta sacaremos el numero de likes por cada post
+         $likes = DB::table('likes')
+         ->select(DB::raw('count(likes.post_id) as contador'))
+         ->where('likes.post_id', '=', $id) 
+         ->get();
+
+         //Con esta consulta sacaremos el numero de comentarios de cada post
+         $comments = DB::table('comments')
+         ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
+         ->where('comments.post_id', '=', $id)  
+         ->get();
+
+        return view('post.show', ['post'=> $post, "likes"=>$likes, "comments"=>$comments]);
     }
 
     /**

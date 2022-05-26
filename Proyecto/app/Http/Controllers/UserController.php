@@ -40,8 +40,47 @@ class UserController extends Controller
 
         //Queda pendiente sacar los posts de ese id
         $user = User::find(Auth::user()->id); //encuentra al usuario logueado, su id
-        $datos['posts'] = DB::table('posts')->select('posts.*')->get();
-        return view('user.profile', compact('user'), $datos);
+
+        //Con esto sacaremos lo posts del perfil que corresponda
+        $posts = DB::table('posts')
+        ->select('posts.*')
+        ->where('posts.user_id', '=', Auth::user()->id)
+        ->get();
+
+        //Con esta consulta sacaremos el numero de likes por cada post
+        $likes = DB::table('likes')
+        ->select(DB::raw('count(likes.post_id) as contador'))
+        ->where('likes.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
+        ->get();
+
+        //Con esta consulta sacaremos el numero de comentarios de cada post
+        $comments = DB::table('comments')
+        ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
+        ->where('comments.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
+        ->get();
+
+
+        //Numero de publicaciones que tiene
+        $numposts = DB::table('posts')
+        ->select(DB::raw('count(posts.id) as contadorPosts'))
+        ->where ('posts.user_id', '=', Auth::user()->id)
+        ->get();
+
+        //Numero de seguidores
+        $seguidores = DB::table('followers')
+        ->select(DB::raw('count(followers.id) as contadorSeguidores'))
+        //->join('users', 'followers.id_user_follower', '=', 'users.id')
+        ->where('followers.user_id', '=', Auth::user()->id)
+        ->get();
+
+        //Numeros de seguidos o siguiendo
+        $siguiendo = DB::table('followers')
+        ->select(DB::raw('count(followers.id_user_follower) as contadorSeguidos'))
+        //->join('users', 'followers.id_user_follower', '=', 'users.id')
+        ->where('followers.id_user_follower', '=', Auth::user()->id)
+        ->get();
+
+        return view('user.profile', ['user'=> $user, "likes"=>$likes, "comments"=>$comments, "posts"=>$posts, "numposts"=>$numposts, "seguidores"=>$seguidores, "siguiendo"=>$siguiendo]);
     }
 
 
@@ -53,8 +92,41 @@ class UserController extends Controller
      */
     public function profile($id){
 
+        //Con esto sacaremos la informacion del usuario
         $user= User::find($id);
-        return view('user.profile', ['user'=> $user]);
+
+        //Con esto sacaremos lo posts del perfil que corresponda
+        $posts = DB::table('posts')
+        ->select('posts.*')
+        ->where('posts.user_id', '=', $id)
+        ->get();
+
+        //Con esta consulta sacaremos el numero de likes por cada post
+        $likes = DB::table('likes')
+        ->select(DB::raw('count(likes.post_id) as contador'))
+        ->where('likes.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
+        ->get();
+
+        //Con esta consulta sacaremos el numero de comentarios de cada post
+        $comments = DB::table('comments')
+        ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
+        ->where('comments.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
+        ->get();
+
+        //Numero de publicaciones que tiene
+        $numposts = DB::table('posts')
+        ->select(DB::raw('count(posts.id) as contadorPosts'))
+        ->where ('posts.user_id', '=', $id)
+        ->get();
+
+        //Numero de seguidores
+        $seguidores = DB::table('followers')
+        ->select(DB::raw('count(followers.id) as contadorSeguidores'))
+        ->join('users', 'followers.id_user_follower', '=', 'users.id')
+        ->where('followers.user_id', '=', $id)
+        ->get();
+
+        return view('user.profile', ['user'=> $user, "likes"=>$likes, "comments"=>$comments, "posts"=>$posts, "numposts"=>$numposts, "seguidores"=>$seguidores]);
     }
 
      /**

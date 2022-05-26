@@ -19,10 +19,10 @@
                     @foreach ($posts as $post)
                             <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; width:100%; height:300px">
                                 <tr>
-                                    <td rowspan="3" ><img
-                                        src="{{url('imagenes/'  .$post->image) }}"
+                                    <td rowspan="3" style="  width: 20%"><img
+                                        src="{{url('img/posts/'  .$post->image) }}"
                                           height="100"
-                                          width="100"
+                                          width="80%"
                                           class="img-thumbnail rounded float-left mr-3"
                                       /></td> <!--por el momento-->
                                     <td colspan="3"><b>{{$post->title}}</b></td>

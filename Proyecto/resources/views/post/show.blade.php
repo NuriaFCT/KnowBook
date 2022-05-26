@@ -76,8 +76,16 @@
                             <p class="text-lg font-semibold mt-1">Disponible en : {{$post->buy_on}}</p> 
                         </div>
                         <p class="text-lg mt-4">{{$post->description}}</p>
-                        <p class="text-base mt-4" style="color: #5e3217">Likes (xx)</p>
-                        <p class="text-base mt-1" style="color: #5e3217">Comentarios (xx)</p>      
+                        
+                        <!--Bucle para los likes-->
+                        @foreach ($likes as $like)                            
+                            <p class="text-base mt-4" style="color: #5e3217">Likes ({{$like->contador}})</p>
+                        @endforeach
+
+                        <!--Bucle para comentarios-->
+                        @foreach ($comments as $comment)
+                            <p class="text-base mt-1" style="color: #5e3217">Comentarios ({{$comment->contadorComentarios}})</p>  
+                        @endforeach    
                     </div>
 
                     <!--Comentarios de forma temporal-->
