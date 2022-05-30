@@ -44,7 +44,13 @@ class PostController extends Controller
          ->where('comments.post_id', '=', $id)  
          ->get();
 
-        return view('post.show', ['post'=> $post, "likes"=>$likes, "comments"=>$comments]);
+         //Con esto se saca la informacion del autor
+         $users = DB::table('users')
+         ->join('posts', 'posts.user_id', '=', 'users.id')
+         ->where('posts.id', '=', $id)
+         ->get();
+
+        return view('post.show', ['post'=> $post, "likes"=>$likes, "comments"=>$comments, "users"=>$users]);
     }
 
     /**

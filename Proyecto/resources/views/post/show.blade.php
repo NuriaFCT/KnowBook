@@ -16,16 +16,18 @@
                     
                     <!--Autor: Foto, fecha y nickname-->
                     <table class=" overflow-hidden mb-4" style="width:100%; height:100px; margin-left: 50px">
-                        <tr >
-                            <td rowspan="3" style="width:25%">Perfil de autor</td>   
-
-                        </tr>  
-                        <tr >
-                            <td >Autor</td>
-                        </tr> 
-                        <tr >
-                            <td style=" opacity: 0.5">{{$post->date_publication}}</td>
-                        </tr>    
+                        @foreach ($users as $user) 
+                            <tr>
+                                <td rowspan="3" style="width:25%">
+                                    <img class="max-w-full h-auto rounded-full" src="{{url('img/users/'  .$user->image_profile) }}" height="100" width="100"/>
+                                </td>   
+                            </tr>  
+                            <tr >
+                                <td >{{$user->name}}</td>
+                            </tr> 
+                            <tr >
+                                <td style=" opacity: 0.5">{{$post->date_publication}}</td>
+                            </tr>    
                     </table>  
 
 
@@ -60,13 +62,13 @@
                     
                     <!--Imagen de portada-->
                     @if (isset($post->image))
-                                Tiene valor en el campo img. Habria que sacar y mostrar.
-                                ANOTO QUE EDITAR Y BORRAR NO VA
+                        <div class=" mt-4 mb-4 flex flex-wrap justify-center ">
+                            <img src="{{url('img/posts/'  .$post->image) }}" height="400px" width="300px"/>
+                        </div> 
                     @else
-                
-                    <div class=" mt-4 mb-4 bg-indigo-300 flex flex-wrap justify-center ">
-                        <img class="object-cover" src={{URL::asset('/img/bookpre.jpg')}} style="height: 400px; width:400px;">
-                    </div>
+                        <div class=" mt-4 mb-4 bg-indigo-300 flex flex-wrap justify-center ">
+                            <img class="object-cover" src={{URL::asset('/img/bookpre.jpg')}} style="height: 400px; width:400px;">
+                        </div>
                         
                     @endif
                     <!--Titulo, lugares donde comprar, descripcion, likes y comentarios-->

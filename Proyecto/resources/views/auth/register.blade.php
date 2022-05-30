@@ -63,8 +63,9 @@
                     <div class="bg-gray-400 h-12">
                         <div class="max-w-sm rounded overflow-hidden shadow-lg mb-4 me-4"
                             style="background-color: #f7e5d8; margin-left: 25px">
-                            <img class="w-full" src="{{URL::asset('/img/LogoSinVectorizar.PNG')}}"
-                                alt="Sunset in the mountains">
+                            <div class=" mt-4 mb-4 flex flex-wrap justify-center ">
+                                <img src="{{url('img/posts/'  .$post->image) }}" height="50%" width="50%"/>
+                            </div>
                             <div class="px-6 py-4">
                                 <div class="font-bold text-xl mb-2">{{ $post->title }}</div>
                                 <p class="text-gray-700 text-base">

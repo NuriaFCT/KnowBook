@@ -40,6 +40,8 @@ Route::get('/dashboard', function (Request $request) {
     //Sacar el id de logueado para usarlo en consulta
     $id = Auth::user()->id;
 
+    //dd($id);
+
     //Sacar los id de las personas que sigo, mis seguidos
     $id_user_follower = DB::table('followers')
     ->select('followers.id_user_follower')
@@ -47,38 +49,59 @@ Route::get('/dashboard', function (Request $request) {
     ->where('users.id', '=', $id)
     ->get();
 
-    //Guardar los id en un array para recorrerlo
-    $array_id_user_follower = array($id_user_follower);
- 
-    //PENDIENTE. Concatenar consultas
-    $numero_id_user_follower = count($array_id_user_follower[0]);
- 
-        for($h=0; $h < $numero_id_user_follower; $h++){
-
-            //Con esta consulta sacaremos los posts de tus seguidores
-           // $posts="";
-            $posts = DB::table('posts')
-            ->join('users', 'posts.user_id', '=', 'users.id')
-            ->join('followers', 'followers.id_user_follower', '=', 'users.id')
-            ->where('followers.id_user_follower', '=', json_encode($array_id_user_follower[0][$h]->id_user_follower)) //aqui va la variable.recorrer con un while
-            ->get();
+    $array_id_user_followers = array($id_user_follower);
+    
+    $posts = DB::table('posts')
+    ->join('users', 'posts.user_id', '=', 'users.id')
+    ->join('followers', 'followers.id_user_follower', '=', 'users.id')
+    ->get();
             
-        }   
+    $isEmpty = empty($array_id_user_followers[0][0]);
 
- 
+    //dd($array_id_user_followers[0][0]);
+    //dd($isEmpty);
+
+    if(!$isEmpty){
+
+        foreach($array_id_user_followers as $id_user){
+
+            $posts->Where('followers.id_user_follower', '=' , json_encode($id_user));
+                
+        }
+    
+    }else{
+
+        $posts = DB::table('posts')
+        ->join('users', 'posts.user_id', '=', 'users.id')
+        ->join('followers', 'followers.id_user_follower', '=', 'users.id')
+        ->where('followers.id_user_follower', '=' , 0)
+        ->get();
+    }
+
+    //dd($posts);
+    
+    $array_id_posts = array($posts);
   
     //--------------------------------LIKES---------------------
     $array_id_posts = array($posts);
 
-    for($j=0; $j < count($array_id_posts); $j++){  
-
      //Con esta consulta sacaremos el numero de likes por cada post
      $likes = DB::table('likes')
-     ->select(DB::raw('count(likes.post_id) as contador'))
-     ->where('likes.post_id', '=', json_encode($array_id_posts[$j][$j]->id))   
+     ->select(DB::raw('count(likes.id) as contador'))      
      ->get();
+    
+
+    foreach ($array_id_posts as  $id_posts){
+
+    $likes->where('likes.post_id', '=', json_encode($id_posts));
+
+    //$likes->where('likes.post_id', '=', 1);
 
     }
+
+   // dd($likes);
+
+    
 
      //------------COMMENT. ------------Con esta consulta sacaremos el numero de comentarios de cada post
      $comments = DB::table('comments')
