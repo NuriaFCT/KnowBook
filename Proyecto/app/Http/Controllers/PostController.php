@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Like;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -29,6 +33,8 @@ class PostController extends Controller
      * Se pasa el id y se dirige a la vista en detalle
      */
     public function show($id){
+
+        /*dd($id);
         //Con esto sacamos el post
         $post= Post::find($id);
 
@@ -48,9 +54,18 @@ class PostController extends Controller
          $users = DB::table('users')
          ->join('posts', 'posts.user_id', '=', 'users.id')
          ->where('posts.id', '=', $id)
-         ->get();
+         ->get();*/
 
-        return view('post.show', ['post'=> $post, "likes"=>$likes, "comments"=>$comments, "users"=>$users]);
+
+         $datos= DB::table('posts')
+         ->select(DB::raw('posts.*, count(likes.id) as contadorLikes, count(comments.id) as contadorComments, users.name, users.image_profile'))
+         ->join('likes','likes.post_id', '=', 'posts.id')
+         ->join('comments','comments.post_id', '=', 'posts.id')
+         ->join('users','users.id', '=', 'posts.user_id')
+         ->where('posts.id', $id)
+         ->get();
+        
+        return view('post.show', ["datos"=>$datos]);
     }
 
     /**
@@ -65,13 +80,24 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
+       // $hola="hola";
+        //dd($request);
         //Tal vez se pueda poner aqui una validacion
 
+        $id = Auth::user()->id;
+
         $datePost = request()->except('_token');
+
+        //dd($datePost);
         if ($request->hasFile('image')) {
 
             $datePost['image'] = $request->file('image')->store('posts');
         }
+
+        $datePost['user_id'] = $id;
+        $datePost['date_publication'] = Carbon::now();
+        //dd($datePost['date_publication']);
+      
         Post::insert($datePost);
         return redirect()->route('dashboard')->with(['status' => 'Post creado correctamente']);
     }
@@ -97,23 +123,29 @@ class PostController extends Controller
     */
     public function update(Request $request, $id){
 
+        
         $datePost = request()->except(['_token', '_method']);
+        //dd($datePost);
         Post::where('id', '=',$id)->update($datePost);
 
         $post= Post::findOrFail($id);
-        return view('post.edit', compact('post'));
+        return redirect()->route('dashboard')->with(['status' => 'Post actualizado correctamente']);
     }
 
     /*
-     Metodo para eliminar usuarios. Incluido foto
+     Metodo para eliminar posts. Incluido foto
      Se envia por un formulario en la vista y se redirecciona nuevamente a la vista
      */
     public function destroy($id)
     {
-        //$user= User::findOrFail($id);
-        // if(Storage::delete('users/'.$user->image)){
-        Post::destroy($id);
-        //}
+ 
+        Like::where('post_id', $id)->delete();
+        Comment::where('post_id', $id)->delete();
+        Post::where('id', $id)->delete();
+
+        //Post::destroy($id); //con este modo salen las violation
+
+    
         return redirect()->route('dashboard')->with(['status' => 'Post borrado correctamente']);
     }
 

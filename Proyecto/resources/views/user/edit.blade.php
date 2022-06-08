@@ -15,7 +15,7 @@
                       <!-- Validation Errors -->
                       <x-auth-validation-errors class="mb-4" :errors="$errors" />
                
-                      <form method="POST" action="{{ route('user.saveProfile') }}" enctype="multipart/form-data">
+                      <form method="POST" action="{{ route('user.saveProfile', $user->id)}}" enctype="multipart/form-data">
                           @csrf
                           @include('user.form')      
                       </form>   

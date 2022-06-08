@@ -32,6 +32,7 @@ class AlertController extends Controller
         ->where('users.id', '=', Auth::user()->id)
         ->get();
 
+        //En parametros se le pasaba $nombre y se le adjuntaba en la vista. Si se hace no funciona
 
         return view('alert.index', ["alerts"=>$alerts, "users"=>$users]);
     }

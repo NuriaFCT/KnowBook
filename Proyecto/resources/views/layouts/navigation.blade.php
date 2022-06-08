@@ -21,7 +21,7 @@
 
                 <!--Buscar: Buscar usuarios y post-->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('searchs.index')" :active="request()->routeIs('searchs.index')">
+                    <x-nav-link :href="route('searchs.show')" :active="request()->routeIs('searchs.show')">
                         {{ __('Buscar') }}
                     </x-nav-link>
                 </div>

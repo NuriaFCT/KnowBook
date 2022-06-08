@@ -43,6 +43,11 @@
                     name="password_confirmation" required />
             </div>
 
+            <!--Rol. Campo oculto-->
+            <div class="mt-4">
+                <input id="role_id" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" name="role_id" value='2' hidden />
+            </div>
+
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('¿Ya esta registrado?') }}

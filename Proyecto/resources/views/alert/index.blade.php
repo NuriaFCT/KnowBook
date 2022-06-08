@@ -13,6 +13,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                    
+                    {{--$nombre--}}
+
                     @foreach ($alerts as $alert)
 
                         <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; border: 2px solid black; width:100%; height:100px">
@@ -63,4 +65,8 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>
+
+
+

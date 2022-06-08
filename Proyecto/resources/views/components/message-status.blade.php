@@ -1,7 +1,7 @@
 @props(['status'])
 
 @if ($status)
-<div class="text-white px-6 py-4 border-0 rounded relative mb-4 bg-blue-500">
+<div class="text-white px-6 py-4 border-0 rounded relative mb-4" style="background-color: rgb(161 98 7);">
    <span class="text-xl inline-block mr-5 align-middle">
      <i class="fas fa-bell"></i>
    </span>

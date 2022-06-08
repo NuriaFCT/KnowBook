@@ -22,14 +22,18 @@ class SearchController extends Controller
 
         if(isset($categoria) && $categoria=='usuario'){
 
-            $resultados=User::where('name', 'like', '%'.$buscarpor.'%');
+            //$resultados=User::where('name', 'like', '%'.$buscarpor.'%');
+
+            $resultados = User::where('name', 'like', '%'.$buscarpor.'%')->get();
+            //$resultados->Where('name', 'like', '%'.$buscarpor.'%');
+            //dd($resultados);
 
         }else{
 
-            $resultados=Post::where('title', 'like', '%'.$buscarpor.'%');
+            $resultados=Post::where('title', 'like', '%'.$buscarpor.'%')->get();
 
             //Con esta consulta sacaremos el numero de likes por cada post
-            $likes = DB::table('likes')
+           /* $likes = DB::table('likes')
             ->select(DB::raw('count(likes.post_id) as contador'))
             ->where('likes.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
             ->get();
@@ -38,10 +42,18 @@ class SearchController extends Controller
             $comments = DB::table('comments')
             ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
             ->where('comments.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
-            ->get();
+            ->get();*/
         }
-
-        return view('search.index', ["resultados"=>$resultados, "buscarpor"=>$buscarpor, "categoria"=>$categoria, "likes"=>$likes, "comments"=>$comments]);
+        //dd($resultados);
+       //likes y commetn quitados
+        return view('search.index', ["resultados"=>$resultados, "buscarpor"=>$buscarpor, "categoria"=>$categoria]);
         
     }
+
+    public function show(){
+    
+        return view ('search.buscador');
+
+    }
+
 }
