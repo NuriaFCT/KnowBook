@@ -19,18 +19,12 @@
     <x-label for="image_profile" :value="__('Imagen de perfil')" />
 
     <x-input id="image_profile" class=" mt-1" type="file" name="image_profile" value="{{ isset($user->image_profile)?$user->image_profile:'' }}" />
-    {{-- <img class="inline object-cover w-12 h-12 mr-2 rounded-full" src="{{ route('user.avatar', ['filename'=>Auth::user()->image])}}" alt="Profile image"/> --}}
     <div class="flex flex-wrap justify-center mt-2">
         <div class="w-6/12 sm:w-4/12 px-4">
-            <!--<img src="{{-- route('user.image', ['filename'=>Auth::user()->image])--}}" alt="Imagen de perfil" class="shadow rounded max-w-full h-auto align-middle border-none" />--->
-            <!-- 
-              {{--@if(isset($user->image))--}}
-              <img src="{{--asset('storage/app/users').'/'.$user->image--}}" alt=" " width="100">
-              {{--@endif--}}
-            -->
+            
           </div>
     </div>
-    <!--<img src="..." class="img-fluid" alt="Imagen de portada">-->
+
 </div>
 
 

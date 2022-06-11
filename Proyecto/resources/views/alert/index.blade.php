@@ -1,11 +1,9 @@
-<!--DESCRIPCION: Vista de las alertas que le llega al usuario sobre seguimiento, like o comentario-->
+<!--DESCRIPCION: Vista de las alertas.
+    Debido a la dificultad no se ha filtrado, es decir, no muestra unicamente la del usuario logueado
+    sino toda actividad de la app-->
 <x-app-layout>
     <x-slot name="header">
 
-        <!--
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{--__('KNOWBOOK')--}}
-        </h2>-->
     </x-slot>
 
     <div class="py-12">
@@ -13,13 +11,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                    
-                    {{--$nombre--}}
 
                     @foreach ($alerts as $alert)
 
                         <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; border: 2px solid black; width:100%; height:100px">
                             <tr>
-                                <!--Imagen del usuario que realiza la accion-->
+                                <!--Imagen en relacion a la accion que se provoque. La idea inical era sacar los datos del usuario-->
 
                                     <td style="width:10%">
                                         @if ($alert->type=="Like")

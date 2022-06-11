@@ -1,13 +1,9 @@
 <!--DESCRIPCION: Vista de creación de post. Será por medio de un formulario que recogerá el metodo store del controlador de libros
-Se accede a este por mediom del menu bar-->
+Se accede a este por medio del menu bar-->
 
 
 <x-app-layout>
     <x-slot name="header">
-        <!--
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{-- __('Subir recomendación') --}}
-        </h2>-->
     </x-slot>
 
     <div class="py-6">
@@ -19,10 +15,6 @@ Se accede a este por mediom del menu bar-->
                     <!-- Validation Errors -->
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                     <form method="GET" action="{{ route('posts.store') }}" enctype="multipart/form-data">
-                        {{-- @csrf 
-                        @include('post.form') --}}
-                        <!--DESCRIPCION: Componente usado para la creación y edicion de post. Ahorra codigo-->
-
                         <!--Imagen se ha de puesto una por defecto en caso de no tener. La idea es que al subir la foto, se ponga en su lugar al editar-->
                         <div>
                             @if (isset($post->image))
@@ -60,10 +52,7 @@ Se accede a este por mediom del menu bar-->
                                 <x-label for="buy_on" :value="__('Obtenerlo en')" />
                                 <x-input id="buy_on" class="block mt-1 w-full" type="text" name="buy_on"
                                     value="{{ isset($post->buy_on) ? $post->buy_on : '' }}" required autofocus />
-                            </div>
-
-                            <!--ID USER-->
-                            
+                            </div>        
 
                             <!--Boton Enviar y regresar -->
                             <div class="flex items-center justify-end mt-4">

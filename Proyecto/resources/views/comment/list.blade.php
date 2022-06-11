@@ -12,7 +12,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-
+<!--Si hay, los mostrará-->
                     @if(count($datos)>0)
 
                         @foreach ($datos as $dato)
@@ -20,6 +20,7 @@
                                 style="background-color: #f7e5d8; border: 2px solid black; width:100%; height:100px">
                                 <tr>
                                     <td rowspan="3" style="width:20%">
+                                        <!--Imagen del usuario que lo ha dejado-->
                                         @if (isset($dato->image_profile))
                                             <div class="bg-indigo-300 flex flex-wrap justify-center">
                                                 <img class="max-w-full h-auto rounded-full"
@@ -34,12 +35,15 @@
                                             </div>
                                         @endif
                                     </td>
+                                    <!--Su nombre-->
                                     <td ><strong>{{ $dato->name }}</strong></td>
                                     <tr>
+                                    <!--Texto dejado-->    
                                         <td >{{ $dato->text }}</td>
                                     </tr>    
                                 </tr>
                         @endforeach
+                    <!--Si no los hay, indicará que no hay ninguno-->    
                     @else
 
                             <div class="flex flex-wrap justify-center">

@@ -19,10 +19,6 @@ Se accede por medio de un post que pertenezca al usuario logueado-->
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                     <form action="{{ route('post.update', $post->id)}}" method="GET" enctype="multipart/form-data">
                         @csrf
-                        {{-- method_field('PATCH') 
-                         @include('post.form') --}}
-                         
-                        <!--DESCRIPCION: Componente usado para la creación y edicion de post. Ahorra codigo-->
 
                         <!--Imagen se ha de puesto una por defecto en caso de no tener. La idea es que al subir la foto, se ponga en su lugar al editar-->
                         <div>
@@ -41,7 +37,7 @@ Se accede por medio de un post que pertenezca al usuario logueado-->
                             <!--Imagen-->
                             <x-label for="image" :value="__('Imagen de portada')" />
 
-                            <x-input id="image" class=" mt-1" type="file" name="image"
+                            <x-input id="image" class=" mt-1" type="file" name="image" required
                             value="{{ isset($post->image) ? $post->image : '' }}" />
 
                             <!--Titulo-->

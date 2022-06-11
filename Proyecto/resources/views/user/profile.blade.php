@@ -166,10 +166,17 @@ Si es usuario logueado, podra editarse-->
                             <table class="rounded overflow-hidden shadow-lg mb-4"
                                 style="background-color: #f7e5d8; width:100%; height:200px">
                                 <tr>
+                                    @if (isset($post->image))
+                                        <td rowspan="3" style="width: 20%"><img
+                                                src="{{ url('img/posts/' . $post->image) }}" height="100" width="70%" />
+                                        </td>
+                                    @else
                                     <td rowspan="3" style="width: 20%"><img
-                                            src="{{ url('img/posts/' . $post->image) }}" height="100" width="70%" />
+                                        src="{{ url('img/posts/bookpre.jpg') }}" height="100" width="70%" />
                                     </td>
-                                    <!--por el momento-->
+                                    @endif
+                                    
+                                    <!--Title y verlo-->
                                     <td colspan="3"><b>{{ $post->title }}</b></td>
                                     <td style="vertical-align: top">
                                         <a href="{{ route('posts.show', ['post' => $post->id]) }}">
@@ -184,19 +191,21 @@ Si es usuario logueado, podra editarse-->
                                     </td>
                                 </tr>
                                 <tr>
+                                    <!--Description-->
                                     <td colspan="4">{{ $post->description }}</td>
                                 </tr>
 
                                 <tr>
                                     <td>
 
-
+                                        <!--Numerod de likes-->
                                         <p style="text-align:right">{{ $post->likes }}</p>
 
 
                                     </td>
 
                                     <td>
+                                        <!--Para dar like-->
                                         <a href="{{ route('posts.like', $post->id) }}">
                                             <svg style="color: #5e3217" class="h-8 w-8 text-red-500" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -206,7 +215,7 @@ Si es usuario logueado, podra editarse-->
                                         </a>
                                     </td>
 
-                                    <!--Tercer bucle para mostrar el numero de comentarios por post-->
+                                    <!--numero de comentarios por post-->
 
                                     <td>
                                         <p style="text-align:right">{{ $post->comentarios }}</p>
@@ -214,7 +223,7 @@ Si es usuario logueado, podra editarse-->
 
 
                                     <td>
-                                        <a href="{{ route('posts.comentarios', $post->id) }}">
+                                        <a href="{{ route('posts.createComment', $post->id) }}">
                                             <svg style="color: #5e3217" class="h-8 w-8 text-yellow-500" width="24"
                                                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">

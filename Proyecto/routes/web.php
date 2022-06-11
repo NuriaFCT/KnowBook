@@ -21,7 +21,7 @@ use App\Models\Post;
 /*------------------------Rutas en relacion al registro e inica sesion-------------*/
 //Nada más acceder al proyecto, se nos pedirá loguearnos
 Route::get('/', function () {
-    //return view('welcome');
+
 
      $datos['posts']=Post::paginate(3);
     return view('auth.login', $datos);
@@ -79,7 +79,7 @@ Route::get('/post/update/{id}',[PostController::class, 'update'])->middleware(['
 Route::get('/post/destroy/{id}',[PostController::class, 'destroy'])->middleware(['auth'])->name('post.destroy');
 //Ruta para los likes de post
 Route::get('/post/like/{id}',[PostController::class, 'like'])->middleware(['auth'])->name('posts.like');
-//Ruta para los comentarios de post
+//Ruta para los comentarios de post. NO SE USA porque funciona como like, no tiene sentido
 Route::get('/post/comentarios/{id}',[PostController::class, 'comentarios'])->middleware(['auth'])->name('posts.comentarios');
 //Crear Comentarios
 Route::get('/posts/createComment/{id}', [PostController::class,'createComment'])->middleware(['auth'])->name('posts.createComment');

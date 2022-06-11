@@ -1,11 +1,7 @@
 <!--DESCRIPCION: Vista de busqueda. En ella habra un campo y dos categorias a elegir para buscar
-En principio no mostrará nada, luego si con una sentenica sql-->
+Esta arrojará los resultados-->
 <x-app-layout>
     <x-slot name="header">
-        <!--
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{-- __('KNOWBOOK') --}}
-        </h2>-->
     </x-slot>
 
     <div class="py-6">
@@ -38,6 +34,7 @@ En principio no mostrará nada, luego si con una sentenica sql-->
 
                                 </td>
                                 <td>
+                                    <!--Btn Enviar-->
                                     <a>
                                         <input type="submit"
                                             class="mb-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
@@ -58,6 +55,7 @@ En principio no mostrará nada, luego si con una sentenica sql-->
                                 <table class="rounded overflow-hidden shadow-lg mb-4"
                                     style="background-color: #f7e5d8; width:100%; height:100px">
                                     <tr>
+                                        <!--Imagen de perfil. Si la imagen es null se mostrará una por defecto-->
                                         <td style="width:20%">
                                             @if (isset($user->image_profile))
                                                 <div class="bg-indigo-300 flex flex-wrap justify-center">
@@ -73,8 +71,9 @@ En principio no mostrará nada, luego si con una sentenica sql-->
                                                 </div>
                                             @endif
                                         </td>
-                                        <!--por el momento-->
+                                        <!--Nombre-->
                                         <td style="width: 60%"><b>{{ $user->name }}</b></td>
+                                        <!--Para visualizar su perfil-->
                                         <td style="width:20%">
                                             <a href="{{ route('users.profile', $user->id) }}">
                                                 <svg style="color: #5e3217" class="h-8 w-8 text-yellow-500" fill="none"
@@ -106,15 +105,17 @@ En principio no mostrará nada, luego si con una sentenica sql-->
                                 <table class="rounded overflow-hidden shadow-lg mb-4"
                                     style="background-color: #f7e5d8; width:100%; height:300px">
                                     <tr>
+                                        <!--Imagen de post. Siempre ha de tener-->
                                         <td rowspan="3" style="  width: 20%">
 
                                             <img src="{{ url('img/posts/' . $post->image) }}" height="100" width="70%"
                                                 class="img-thumbnail rounded float-left mr-3" />
 
                                         </td>
-                                        <!--por el momento-->
-
+                                
+                                        <!--Titulo-->
                                         <td colspan="3"><b>{{ $post->title }}</b></td>
+                                        <!--Para visualizarlo-->
                                         <td style="vertical-align: top">
                                             <a href="{{ route('posts.show', $post->id) }}">
                                                 <svg style="color: #5e3217" class="h-8 w-8 text-yellow-500" fill="none"
@@ -129,6 +130,7 @@ En principio no mostrará nada, luego si con una sentenica sql-->
                                         </td>
                                     </tr>
                                     <tr>
+                                        <!--Description-->
                                         <td colspan="4">{{ $post->description }}</td>
                                     </tr>
 
@@ -136,13 +138,14 @@ En principio no mostrará nada, luego si con una sentenica sql-->
 
                                         <td>
 
-
+                                            <!--Numero de likes-->
                                             <p style="text-align:right">{{ $post->likes }}</p>
 
 
                                         </td>
 
                                         <td>
+                                            <!--Para dar like-->
                                             <a href="{{ route('posts.like', $post->id) }}">
                                                 <svg style="color: #5e3217" class="h-8 w-8 text-red-500" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -153,7 +156,7 @@ En principio no mostrará nada, luego si con una sentenica sql-->
                                             </a>
                                         </td>
 
-                                        <!--Tercer bucle para mostrar el numero de comentarios por post-->
+                                        <!--El numero de comentarios por post-->
 
                                         <td>
                                             <p style="text-align:right">{{ $post->comentarios }}</p>
@@ -161,7 +164,8 @@ En principio no mostrará nada, luego si con una sentenica sql-->
 
 
                                         <td>
-                                            <a href="{{ route('posts.comentarios', $post->id) }}">
+                                            <!--Si se pica, debe ir a listado-->
+                                            <a href="{{ route('posts.createComment', $post->id) }}">
                                                 <svg style="color: #5e3217" class="h-8 w-8 text-yellow-500" width="24"
                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
                                                     stroke="currentColor" fill="none" stroke-linecap="round"

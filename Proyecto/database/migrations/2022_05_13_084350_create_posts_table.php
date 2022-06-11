@@ -12,7 +12,7 @@ class CreatePostsTable extends Migration
      * Creacion de la tabla Post y sus atributos
      * 
      * Id del post, titulo descripcion, imagen, fecha de publicación, id del usuario que publica y donde comprarlo 
-     *
+     * likes y comentarios que actuaran como contadores
      * @return void
      */
     public function up()

@@ -9,7 +9,6 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
@@ -18,13 +17,18 @@ class UserController extends Controller
 {
 
 
-    /*
-     Metodo para eliminar usuarios. Incluido foto
-     Se envia por un formulario en la vista y se redirecciona nuevamente a la vista
+    /**
+     *  Metodo para eliminar usuarios. Incluido foto
+     *  Se envia por un formulario en la vista y se redirecciona nuevamente a la vista
+     *  @param id clave primaria del usuario a borrar
+     *  @param request nos permitirá cerrar la sesión
+     *  @return redirect a login si el usuario es logueado sino al inicio 
      */
+    
     public function destroy($id, Request $request)
     {
 
+        //Se borra antes las tablas que tiran de ella
         Post::where('user_id', $id)->delete();
         Like::where('user_id', $id)->delete();
         Comment::where('user_id', $id)->delete();
@@ -32,16 +36,15 @@ class UserController extends Controller
         Follower::where('id_user_follower', $id)->delete(); //alguien me sigue
         User::where('id', $id)->delete();
         
-        //Si el usuario es el logueado, hay que cerrar la sesion.
+        //Si el usuario es el logueado, hay que cerrar la sesion y redirigir al login.
         if ($id == Auth::user()->id) {
-            //User::destroy($id); //de esta manera salta las violaciones sql
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return redirect('/');
+        //Si no lo es, borra y continua dentro de la app.l    
         } else {
 
-            //User::destroy($id);
             return redirect()->route('dashboard')->with(['status' => 'Usuario borrado correctamente']);
         }
     }
@@ -53,12 +56,13 @@ class UserController extends Controller
      * Se ha decidido hacer dos controladores para la vista porque se tendria que pasar 
      * el id del logueado y sus posts, ademas del perfil seleccionado lo que requeriria de parametros
      * 
-     * @return profile
+     * Hay un controlador para mi perfil y otro para los usuarios. La vista se mantiene
+     * 
+     * @return profile nuestro perfil
      */
     public function myprofile()
     {
 
-        //Queda pendiente sacar los posts de ese id
         $user = User::find(Auth::user()->id); //encuentra al usuario logueado, su id
 
         //Con esto sacaremos lo posts del perfil que corresponda
@@ -76,14 +80,12 @@ class UserController extends Controller
         //Numero de seguidores
         $seguidores = DB::table('followers')
             ->select(DB::raw('count(followers.id) as contadorSeguidores'))
-            //->join('users', 'followers.id_user_follower', '=', 'users.id')
             ->where('followers.user_id', '=', Auth::user()->id)
             ->get();
 
         //Numeros de seguidos o siguiendo
         $siguiendo = DB::table('followers')
             ->select(DB::raw('count(followers.id_user_follower) as contadorSeguidos'))
-            //->join('users', 'followers.id_user_follower', '=', 'users.id')
             ->where('followers.id_user_follower', '=', Auth::user()->id)
             ->get();
 
@@ -94,16 +96,19 @@ class UserController extends Controller
     /**
      * Funcion que retorna el perfil del usuario picado
      * 
-     * @param id
+     * @param id usuario al que se accede
      * @return profile vista perfil
      */
     public function profile($id)
     {
      
-
+        /*
+        Con este fragmento de código se saca si seguimos al usuario o no
+        Se recoge los seguidos que tiene la cuenta logueada y se almacenan en un array 
+        que es filtrado. Luego en un bucle se compara el id pasado con los almacenados
+        */
         $id_logueado= Auth::user()->id;
 
-        
         $misSeguidores_2 = Follower::all()->where('user_id', $id_logueado);
    
 
@@ -155,20 +160,14 @@ class UserController extends Controller
         //Numero de seguidores
         $seguidores = DB::table('followers')
             ->select(DB::raw('count(followers.id) as contadorSeguidores'))
-            //->join('users', 'followers.id_user_follower', '=', 'users.id')
             ->where('followers.id_user_follower', '=', $id)
             ->get();
-
-            //dd($id);
 
         //Numeros de seguidos o siguiendo
         $siguiendo = DB::table('followers')
             ->select(DB::raw('count(followers.id) as contadorSeguidos'))
-            //->join('users', 'followers.id_user_follower', '=', 'users.id')
             ->where('followers.user_id', '=', $id_logueado)
             ->get();
-
-           
 
         return view('user.profile', ['user' => $user, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
     }
@@ -176,12 +175,13 @@ class UserController extends Controller
 
     /**
      * Vista de editar perfil
+     * 
+     * @return user.edit devuelve la vista de formulario para actualizar el perfil 
      */
 
     public function config()
     {
-        //$user = User::find(Auth::user()->id);
-
+        //Metemos los datos del usuario logueado en un array al que pasamos a la vista donde se mostrará en los campos
         $datos['user'] = User::find(Auth::user()->id);
 
         return view('user.edit', $datos);
@@ -190,6 +190,8 @@ class UserController extends Controller
 
     /**
      * Guardado de perfil
+     * 
+     * @param request nos permitirá recoger todos los datos del formulario
      */
     public function saveProfile(Request $request)
     {
@@ -223,7 +225,6 @@ class UserController extends Controller
         $user->save();
 
 
-
         //Llevamos a la vista de perfil, es decir, a la que se accede para editar indicando que esta todo correcto
         return redirect()->route('users.profile', ['id' => $id])->with(['status' => 'Perfil editado correctamente']);
     }
@@ -231,6 +232,10 @@ class UserController extends Controller
 
     /**
      * Función para seguir a otra cuenta
+     * 
+     * @param id usuario al que se accede al perfil
+     * 
+     * @return redireccion al perfil de ese id actualizado
      */
     public function follow($id){
 
@@ -241,20 +246,19 @@ class UserController extends Controller
 
         Follower::insert($dateFollow);
         return redirect()->route('users.profile', ['id' => $id]);
-
-        //return view('user.profile', ['user' => $user, "likes" => $likes, "comments" => $comments, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
         
     }
 
     /**
      * Funcion para dejar de seguir
+     * 
+     * @param id del usuario al que se accede
+     * @return redireccion a la misma vista actualizada
      */
     public function unfollow($id){
 
         Follower::where('id_user_follower', $id)->delete(); 
         return redirect()->route('users.profile', ['id' => $id]);
-
-        //return view('user.profile', ['user' => $user, "likes" => $likes, "comments" => $comments, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
         
     }
 

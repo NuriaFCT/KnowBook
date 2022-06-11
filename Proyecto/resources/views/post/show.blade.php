@@ -110,16 +110,13 @@
                     </div>
 
                     <!--Imagen de portada-->
-                    @if (isset($dato->image))
+            
                         <div class=" mt-4 mb-4 flex flex-wrap justify-center ">
                             <img src="{{ url('img/posts/' . $dato->image) }}" height="400px" width="300px" />
                         </div>
-                    @else
-                        <div class=" mt-4 mb-4 bg-indigo-300 flex flex-wrap justify-center ">
-                            <img class="object-cover" src={{ URL::asset('/img/bookpre.jpg') }}
-                                style="height: 400px; width:400px;">
-                        </div>
-                    @endif
+                   
+
+                    
 
                     <!--Titulo, lugares donde comprar, descripcion, likes y comentarios-->
                     <div class="ml-12">
@@ -134,7 +131,7 @@
                             <p class="text-base mt-4" style="color: #5e3217">Likes ({{ $dato->likes }})</p>
                       
 
-                        <!--Bucle para comentarios-->
+                        <!--Listar comentarios de ese post-->
                        
                         <a href="{{route('posts.showComments', $dato->id)}}">
                             <p class="text-base mt-1" style="color: #5e3217">Comentarios
@@ -143,6 +140,7 @@
                         </a>   
                         @endforeach
                         
+                        <!--Crear comentarios-->
                         <a href="{{route('posts.createComment', $dato->id)}}">
                             <p class="text-base mt-1" style="color: #5e3217">Hacer un comentario</p>
                         </a>   

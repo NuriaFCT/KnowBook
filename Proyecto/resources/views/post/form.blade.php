@@ -1,4 +1,5 @@
-<!--DESCRIPCION: Componente usado para la creación y edicion de post. Ahorra codigo-->
+<!--DESCRIPCION: Componente usado para la creación y edicion de post. Ahorra codigo
+Se usó en un principio, pero fue retirado tras problemas que daba-->
 
 <!--Imagen se ha de puesto una por defecto en caso de no tener. La idea es que al subir la foto, se ponga en su lugar al editar-->
 <div>
