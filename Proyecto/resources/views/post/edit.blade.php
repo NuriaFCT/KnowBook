@@ -41,8 +41,8 @@ Se accede por medio de un post que pertenezca al usuario logueado-->
                             <!--Imagen-->
                             <x-label for="image" :value="__('Imagen de portada')" />
 
-                            <x-input id="image" class=" mt-1" hidden type="img" name="image"
-                                value="{{$post->image}}" />
+                            <x-input id="image" class=" mt-1" type="file" name="image"
+                            value="{{ isset($post->image) ? $post->image : '' }}" />
 
                             <!--Titulo-->
                             <div class="mt-4">

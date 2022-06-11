@@ -24,6 +24,8 @@ class CreatePostsTable extends Migration
             $table->string('buy_on', 150); 
             $table->date('date_publication');
             $table->string('image',150);  
+            $table->string('likes',20);
+            $table->string('comentarios',20);
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained('users');

@@ -6,12 +6,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InicioController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\LIKE;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AjaxController;
 
 
 /*
@@ -58,7 +53,10 @@ Route::post('/user/saveProfile/{id}', [UserController::class,'saveProfile'])->mi
 Route::get('/users/{id}', [UserController::class,'profile'])->middleware(['auth'])->name('users.profile');
 //Para borrar usuarios
 Route::get('/user/destroy/{id}',[UserController::class, 'destroy'])->middleware(['auth'])->name('user.destroy');
-
+//Ruta para seguir
+Route::get('/user/follow/{id}',[UserController::class, 'follow'])->middleware(['auth'])->name('user.follow');
+//Ruta para dejar de seguir
+Route::get('/user/unfollow/{id}',[UserController::class, 'unfollow'])->middleware(['auth'])->name('user.unfollow');
 
 /*------Rutas en relacion a la interfaz y controlador de alerts------*/
 //Unica ruta que habrá para este ya que se ira actualizando sobre la misma
@@ -79,12 +77,13 @@ Route::get('/post/edit/{id}',[PostController::class, 'edit'])->middleware(['auth
 Route::get('/post/update/{id}',[PostController::class, 'update'])->middleware(['auth'])->name('post.update');
 //Ruta para eliminar post
 Route::get('/post/destroy/{id}',[PostController::class, 'destroy'])->middleware(['auth'])->name('post.destroy');
-
-
-
-//Route::resource('posts', PostController::class);
-
-
-
-//AJAX
-Route::get('/post/like', [AjaxController::class, 'index'])->name('posts.like');
+//Ruta para los likes de post
+Route::get('/post/like/{id}',[PostController::class, 'like'])->middleware(['auth'])->name('posts.like');
+//Ruta para los comentarios de post
+Route::get('/post/comentarios/{id}',[PostController::class, 'comentarios'])->middleware(['auth'])->name('posts.comentarios');
+//Crear Comentarios
+Route::get('/posts/createComment/{id}', [PostController::class,'createComment'])->middleware(['auth'])->name('posts.createComment');
+//Guardar comentario
+Route::get('/posts/saveComment', [PostController::class,'saveComment'])->middleware(['auth'])->name('posts.saveComment');
+//Mostrar comentarios de ese post
+Route::get('/posts/showComments/{post}', [PostController::class,'showComments'])->middleware(['auth'])->name('posts.showComments');

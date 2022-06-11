@@ -20,14 +20,14 @@ class AlertSeeder extends Seeder
     {
 
         //Insercion de tres alertas a mano. Las unicas
-        DB::insert("INSERT INTO `alerts` (`id`, `type`, `message`) 
-        VALUES  (NULL, 'Like', 'Le ha gustado tu post')");
+        DB::insert("INSERT INTO `alerts` (`id`, `type`, `message`, `id_usuario`) 
+        VALUES  (NULL, 'Like', 'Le ha gustado tu post', 13)");
 
-        DB::insert("INSERT INTO `alerts` (`id`, `type`, `message`) 
-        VALUES  (NULL, 'Comment', 'Te ha comentado')");
+        DB::insert("INSERT INTO `alerts` (`id`, `type`, `message`, `id_usuario`) 
+        VALUES  (NULL, 'Comment', 'Te ha comentado', 17)");
 
-        DB::insert("INSERT INTO `alerts` (`id`, `type`, `message`) 
-        VALUES  (NULL, 'Follow', 'Te ha seguido')");
+        DB::insert("INSERT INTO `alerts` (`id`, `type`, `message`, `id_usuario`) 
+        VALUES  (NULL, 'Follow', 'Te ha seguido', 13)");
 
     }
 }

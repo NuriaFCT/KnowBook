@@ -131,30 +131,23 @@
 
                         <!--Bucle para los likes-->
                        
-                            <p class="text-base mt-4" style="color: #5e3217">Likes ({{ $dato->contadorLikes }})</p>
+                            <p class="text-base mt-4" style="color: #5e3217">Likes ({{ $dato->likes }})</p>
                       
 
                         <!--Bucle para comentarios-->
-                      
+                       
+                        <a href="{{route('posts.showComments', $dato->id)}}">
                             <p class="text-base mt-1" style="color: #5e3217">Comentarios
-                                ({{ $dato->contadorComments }})
+                                ({{ $dato->comentarios }})
                             </p>
+                        </a>   
                         @endforeach
+                        
+                        <a href="{{route('posts.createComment', $dato->id)}}">
+                            <p class="text-base mt-1" style="color: #5e3217">Hacer un comentario</p>
+                        </a>   
                     </div>
-                    <!--Comentarios de forma temporal-->
-                    <table class="overflow-hidden  mb-4" style="width:100%; height:100px;">
-                        <tr>
-                            <td>
-                                <x-input style="background-color: #f7e5d8" class="block mt-1 w-full"></x-input>
-                            </td>
-                            <td><svg style="color: #5e3217;" class="h-6 w-6 text-yellow-500" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <line x1="22" y1="2" x2="11" y2="13" />
-                                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                                </svg></td>
-                        </tr>
-                    </table>
+                    
                 </div>
             </div>
         </div>

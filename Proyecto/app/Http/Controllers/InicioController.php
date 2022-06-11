@@ -22,7 +22,6 @@ class InicioController extends Controller
 
     $id = Auth::user()->id;
 
-    //dd($id);
 
     //Sacar los id de las personas que sigo, mis seguidos
     $id_user_follower = DB::table('followers')
@@ -39,20 +38,8 @@ class InicioController extends Controller
         $array_ids[]=$id_user->id_user_follower;
     }
     
-    //dd($id[0][1]->id_user_follower);
 
     $posts= Post::all();
-
-    $i=1;
-
-    /*foreach($id[0] as $id_user){
-
-        print("IT ".$i. ":");
-        print_r($id_user->id_user_follower);
-        $posts=$posts->where('user_id',null, $id_user->id_user_follower);
-        $i++;
-        break;       
-    }*/
 
     $post_filtrado= new stdClass;
     $post_filtrado->items=array();
@@ -62,24 +49,6 @@ class InicioController extends Controller
         }
         
     }
-
-    //dd($posts);
-    //dd($post_filtrado);
-    //dd($posts);
-    
-    //dd($id_user_follower);
-    /*$posts = DB::table('posts')
-    ->join('users', 'posts.user_id', '=', 'users.id')
-    ->join('followers', 'followers.id_user_follower', '=', 'users.id')
-    ->get();*/
-
-    
-
-    /*foreach($id_user_follower as $id_user){
-
-        $posts= Post::all()->where('user_id', json_encode($id_user));
-
-    }*/
 
     return view('dashboard', ["posts" => $post_filtrado->items]);
 

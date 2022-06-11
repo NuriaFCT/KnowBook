@@ -76,7 +76,7 @@ Se accede a este por mediom del menu bar-->
                                         style="background-color: #a05a2c; margin-left: 4px" value="Regresar">
                                 </a>
                             </div>
-
+                        </div>
                     </form>
                 </div>
             </div>

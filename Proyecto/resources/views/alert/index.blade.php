@@ -20,19 +20,26 @@
                         <table class="rounded overflow-hidden shadow-lg mb-4" style="background-color: #f7e5d8; border: 2px solid black; width:100%; height:100px">
                             <tr>
                                 <!--Imagen del usuario que realiza la accion-->
-                                @foreach ($users as $user)
+
                                     <td style="width:10%">
-                                        @if (isset($user->image_profile))
+                                        @if ($alert->type=="Like")
+                                            <div class="bg-indigo-300 flex flex-wrap justify-center"> <!--6.77 gamma-->
+                                                <img class="max-w-full h-auto rounded"  src="{{url('img/alerts/like.png') }}" style="height: 100px; width:100px;">
+                                            </div> 
+                                        @endif
+
+                                        @if ($alert->type=="Follow")
                                             <div class="bg-indigo-300 flex flex-wrap justify-center">
-                                            <img class="max-w-full h-auto rounded-full"  src="{{url('img/users/'  .$user->image_profile) }}" style="height: 100px; width:100px;">
-                                            </div>    
-                                        @else
-                                            <div class="bg-indigo-300 flex flex-wrap justify-center">
-                                                <img class="max-w-full h-auto rounded-full" src={{URL::asset('/img/avatar.png')}} style="height: 200px; width:200px;">
+                                                <img class="max-w-full h-auto rounded"  src="{{url('img/alerts/follow.png') }}" style="height: 100px; width:100px;">
                                             </div>
                                         @endif
-                                @endforeach
-                                </td>
+                                        
+                                        @if ($alert->type=="Comment")
+                                            <div class="bg-indigo-300 flex flex-wrap justify-center">
+                                                <img class="max-w-full h-auto rounded" src= "{{url('img/alerts/comment.png') }}" style="height: 100px; width:100px;">
+                                            </div>
+                                        @endif
+                                    </td>
                                 <!--Accion realizada-->
                                 <td >
                                     {{$alert->message}}

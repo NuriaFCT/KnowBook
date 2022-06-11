@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alert;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
@@ -11,6 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Mockery\Undefined;
 
 class PostController extends Controller
 {
@@ -34,29 +36,6 @@ class PostController extends Controller
      */
     public function show($id){
 
-        /*dd($id);
-        //Con esto sacamos el post
-        $post= Post::find($id);
-
-         //Con esta consulta sacaremos el numero de likes por cada post
-         $likes = DB::table('likes')
-         ->select(DB::raw('count(likes.post_id) as contador'))
-         ->where('likes.post_id', '=', $id) 
-         ->get();
-
-         //Con esta consulta sacaremos el numero de comentarios de cada post
-         $comments = DB::table('comments')
-         ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
-         ->where('comments.post_id', '=', $id)  
-         ->get();
-
-         //Con esto se saca la informacion del autor
-         $users = DB::table('users')
-         ->join('posts', 'posts.user_id', '=', 'users.id')
-         ->where('posts.id', '=', $id)
-         ->get();*/
-
-
          $datos= DB::table('posts')
          ->select(DB::raw('posts.*, count(likes.id) as contadorLikes, count(comments.id) as contadorComments, users.name, users.image_profile'))
          ->join('likes','likes.post_id', '=', 'posts.id')
@@ -79,10 +58,6 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-
-       // $hola="hola";
-        //dd($request);
-        //Tal vez se pueda poner aqui una validacion
 
         $id = Auth::user()->id;
 
@@ -123,12 +98,43 @@ class PostController extends Controller
     */
     public function update(Request $request, $id){
 
+        /*
+        $post = Post::where('id', '=',$id);
+
+        //dd($post);
+
+        $request->validate([
+
+            'title' => 'required|string|max:150',
+            'description' => 'required|string|max:6500',
+            'buy_on' => 'required|string|max:150'
+
+        ]);
+
+        //dd($request);
+
+        $image = $request->file('image');
+
+        dd($image);
+
+        if ($image) {
+            $image_name =  $image->getClientOriginalName();
+            Storage::disk('posts')->put($image_name, File::get($image));
+            $post->image = $image_name;
+        }
+
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->buy_on = $request->buy_on;
+        $id = $post->id;
+        $post->save();
+
+        */
         
         $datePost = request()->except(['_token', '_method']);
         //dd($datePost);
         Post::where('id', '=',$id)->update($datePost);
 
-        $post= Post::findOrFail($id);
         return redirect()->route('dashboard')->with(['status' => 'Post actualizado correctamente']);
     }
 
@@ -142,10 +148,7 @@ class PostController extends Controller
         Like::where('post_id', $id)->delete();
         Comment::where('post_id', $id)->delete();
         Post::where('id', $id)->delete();
-
-        //Post::destroy($id); //con este modo salen las violation
-
-    
+           
         return redirect()->route('dashboard')->with(['status' => 'Post borrado correctamente']);
     }
 
@@ -159,6 +162,152 @@ class PostController extends Controller
     }
 
 
+
+    /**
+     * Contador de likes y añade la alerta
+     * 
+     */
+
+     public function like($id){
+
+
+            //Crear funcion para sumar uno a los likes de post
+            $likes = Post::all()->where('id', $id);
+       
+            $id_2= array($likes);
+
+            $array_ids=array();
+
+            foreach($id_2[0] as $id_user){
+                $array_ids[]=$id_user->likes;
+            }
+
+            $contadorLike=$array_ids[0];
+
+            DB::table('posts')
+            ->where('id', $id) 
+            ->update(['likes' => $contadorLike+1]);
+
+             //Funcion para la creacion de la alerta
+
+             
+             $type="Like";
+             $message="Le ha gustado tu post";
+
+             $datePost['type'] = $type;
+             $datePost['message'] = $message;
+             $datePost['id_usuario'] = Auth::user()->id; 
+
+             Alert::insert($datePost);
+
+             return redirect()->route('dashboard');
+
+     }
+
+
+     /***
+      * Contador de comentarios y añade la alerta
+      */
+     public function comentarios($id){
+
+
+         //Crear funcion para sumar uno a los comentarios de post
+         $comentarios = Post::all()->where('id', $id);
+       
+         $id_2= array($comentarios);
+
+         $array_ids=array();
+
+         foreach($id_2[0] as $id_user){
+             $array_ids[]=$id_user->comentarios;
+         }
+
+         $contadorComentario=$array_ids[0];
+
+         DB::table('posts')
+         ->where('id', $id) 
+         ->update(['comentarios' => $contadorComentario+1]);
+
+          //Funcion para la creacion de la alerta
+
+          $type="Comment";
+          $message="Ha comentado un post";
+
+          $datePost['type'] = $type;
+          $datePost['message'] = $message;
+          $datePost['id_usuario'] = Auth::user()->id; 
+
+          Alert::insert($datePost);
+
+          return redirect()->route('dashboard');
+     }
+
+
+     /**
+      * Funcion que muestra la vista de form para dejar un comentario
+      */
+
+     public function createComment ($id){
+
+        //$post= Post::findOrFail($id);
+        return view('comment.create', ["id"=>$id] );
+
+     }
+
+     /**
+      * Funcion que guarda el comentario
+      */
+
+      public function saveComment (Request $request){
+
+        $id_usuario = Auth::user()->id;
+
+        $comentario = array([
+            'text' => $request->text,
+            'user_id' => $id_usuario,
+            'post_id' => $request->post_id
+        ]);
+
+
+        Comment::insert($comentario);
+
+        $comentarios = Post::all()->where('id', $request->post_id);
+       
+         $id_2= array($comentarios);
+
+         $array_ids=array();
+
+         foreach($id_2[0] as $id_user){
+             $array_ids[]=$id_user->comentarios;
+         }
+
+         $contadorComentario=$array_ids[0];
+
+         DB::table('posts')
+         ->where('id', $request->post_id) 
+         ->update(['comentarios' => $contadorComentario+1]);
+
+        return redirect()->route('dashboard');
+
+     }
+
+     /***
+      * Funcion para listar todos los comentarios de este post
+      Necesita la id del post
+      */
+
+     public function showComments($id)
+      {
+
+        //dd($id);
+        $datos = DB::table('comments')
+        ->select(DB::raw('comments.*, users.name, users.image_profile'))
+        ->join('users','users.id', '=', 'comments.user_id')
+        ->where('comments.post_id', '=', $id)
+        ->get();
+
+        return view('comment.list', ["datos"=>$datos]);
+      }
 
 
 }

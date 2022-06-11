@@ -19,6 +19,7 @@ class CreateAlertsTable extends Migration
             $table->id();
             $table->string('type',10); 
             $table->string('message',150); 
+            $table->integer('id_usuario'); //quien hace la accion
             $table->timestamps();
         });
     }

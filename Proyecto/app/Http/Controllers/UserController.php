@@ -67,19 +67,6 @@ class UserController extends Controller
             ->where('posts.user_id', '=', Auth::user()->id)
             ->get();
 
-        //Con esta consulta sacaremos el numero de likes por cada post
-        $likes = DB::table('likes')
-            ->select(DB::raw('count(likes.post_id) as contador'))
-            ->where('likes.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
-            ->get();
-
-        //Con esta consulta sacaremos el numero de comentarios de cada post
-        $comments = DB::table('comments')
-            ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
-            ->where('comments.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
-            ->get();
-
-
         //Numero de publicaciones que tiene
         $numposts = DB::table('posts')
             ->select(DB::raw('count(posts.id) as contadorPosts'))
@@ -100,7 +87,7 @@ class UserController extends Controller
             ->where('followers.id_user_follower', '=', Auth::user()->id)
             ->get();
 
-        return view('user.profile', ['user' => $user, "likes" => $likes, "comments" => $comments, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo]);
+        return view('user.profile', ['user' => $user, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo]);
     }
 
 
@@ -112,6 +99,43 @@ class UserController extends Controller
      */
     public function profile($id)
     {
+     
+
+        $id_logueado= Auth::user()->id;
+
+        
+        $misSeguidores_2 = Follower::all()->where('user_id', $id_logueado);
+   
+
+        $id_seguidores_2= array($misSeguidores_2);
+    
+        $array_ids_seguidores=array();
+
+        foreach($id_seguidores_2[0] as $id_seguidor){
+            $array_ids_seguidores[]=$id_seguidor->id_user_follower;
+        }
+
+        $misSeguidores = Follower::all();
+
+        $seguidores_filtrado=array();
+        foreach($misSeguidores as $seguidor){
+            if (in_array($seguidor->id_user_follower,$array_ids_seguidores)){
+                $seguidores_filtrado[]=$seguidor;
+            }
+            
+        }
+       
+        $s="";
+        foreach( $seguidores_filtrado as $id_seguidor){
+          
+            if($id_seguidor->id_user_follower==$id){
+                //dd("Siguiendo");
+                $s = "siguiendo";         
+
+            }
+        
+          
+        }
 
         //Con esto sacaremos la informacion del usuario
         $user = User::find($id);
@@ -120,18 +144,6 @@ class UserController extends Controller
         $posts = DB::table('posts')
             ->select('posts.*')
             ->where('posts.user_id', '=', $id)
-            ->get();
-
-        //Con esta consulta sacaremos el numero de likes por cada post
-        $likes = DB::table('likes')
-            ->select(DB::raw('count(likes.post_id) as contador'))
-            ->where('likes.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
-            ->get();
-
-        //Con esta consulta sacaremos el numero de comentarios de cada post
-        $comments = DB::table('comments')
-            ->select(DB::raw('count(comments.post_id) as contadorComentarios'))
-            ->where('comments.post_id', '=', 34)  //hay que cambiar el 34 igual que arriba
             ->get();
 
         //Numero de publicaciones que tiene
@@ -143,29 +155,24 @@ class UserController extends Controller
         //Numero de seguidores
         $seguidores = DB::table('followers')
             ->select(DB::raw('count(followers.id) as contadorSeguidores'))
-            ->join('users', 'followers.id_user_follower', '=', 'users.id')
-            ->where('followers.user_id', '=', $id)
+            //->join('users', 'followers.id_user_follower', '=', 'users.id')
+            ->where('followers.id_user_follower', '=', $id)
             ->get();
+
+            //dd($id);
 
         //Numeros de seguidos o siguiendo
         $siguiendo = DB::table('followers')
-            ->select(DB::raw('count(followers.id_user_follower) as contadorSeguidos'))
+            ->select(DB::raw('count(followers.id) as contadorSeguidos'))
             //->join('users', 'followers.id_user_follower', '=', 'users.id')
-            ->where('followers.id_user_follower', '=', Auth::user()->id)
+            ->where('followers.user_id', '=', $id_logueado)
             ->get();
 
-        return view('user.profile', ['user' => $user, "likes" => $likes, "comments" => $comments, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo]);
+           
+
+        return view('user.profile', ['user' => $user, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
     }
 
-    /**
-     * Vista de editar perfil
-     */
-    /*
-    public function edit($id)
-    {
-        $user = User::findOrFail($id);
-        return view('user.edit', compact('user')); 
-    }*/
 
     /**
      * Vista de editar perfil
@@ -201,10 +208,11 @@ class UserController extends Controller
         $image_profile = $request->file('image_profile');
 
         if ($image_profile) {
-            $image_name =  time() . $image_profile->getClientOriginalName();
+            $image_name =  $image_profile->getClientOriginalName();
             Storage::disk('users')->put($image_name, File::get($image_profile));
             $user->image_profile = $image_name;
         }
+
 
         //Se almacenan y se guarda los cambios
         $user->name = $request->name;
@@ -219,4 +227,36 @@ class UserController extends Controller
         //Llevamos a la vista de perfil, es decir, a la que se accede para editar indicando que esta todo correcto
         return redirect()->route('users.profile', ['id' => $id])->with(['status' => 'Perfil editado correctamente']);
     }
+
+
+    /**
+     * Función para seguir a otra cuenta
+     */
+    public function follow($id){
+
+        $id_logueado= Auth::user()->id;
+
+        $dateFollow['user_id']=$id_logueado;
+        $dateFollow['id_user_follower']=$id;   
+
+        Follower::insert($dateFollow);
+        return redirect()->route('users.profile', ['id' => $id]);
+
+        //return view('user.profile', ['user' => $user, "likes" => $likes, "comments" => $comments, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
+        
+    }
+
+    /**
+     * Funcion para dejar de seguir
+     */
+    public function unfollow($id){
+
+        Follower::where('id_user_follower', $id)->delete(); 
+        return redirect()->route('users.profile', ['id' => $id]);
+
+        //return view('user.profile', ['user' => $user, "likes" => $likes, "comments" => $comments, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
+        
+    }
+
+    
 }
