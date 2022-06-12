@@ -12,6 +12,14 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            <!--Imagen-->
+            <div>
+                <x-label for="image" :value="__('Imagen de perfil')" />
+
+                <x-input id="image_profile" class=" mt-1" type="file" name="image_profile" required/>
+
+            </div>
+
             <!-- Name -->
             <div>
                 <x-label for="name" :value="__('Name')" />

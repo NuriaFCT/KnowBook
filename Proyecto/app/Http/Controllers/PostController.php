@@ -297,12 +297,94 @@ class PostController extends Controller
       {
 
         $datos = DB::table('comments')
-        ->select(DB::raw('comments.*, users.name, users.image_profile'))
+        ->select(DB::raw('comments.*, users.name, users.image_profile, posts.user_id as autor'))
         ->join('users','users.id', '=', 'comments.user_id')
+        ->join ('posts', 'posts.id', '=', 'comments.post_id')
         ->where('comments.post_id', '=', $id)
         ->get();
 
+        //dd($datos);
+
         return view('comment.list', ["datos"=>$datos]);
+      }
+
+    /**
+     * Funcion para borrar comentarios
+     * @param id del comentario
+     * @return dashboard avisando de la operacion realizada
+     */
+      public function destroyComments ($id){
+
+         //Tambien el campo comentarios en posts. Para ello necesito el post al cual pertenece a ese comentario
+        $post_id=DB::table('comments')
+        ->select('comments.post_id')
+        ->where('comments.id', '=', $id)
+        ->get();
+
+        $array_post_id = array($post_id);
+       
+
+         $array_ids=array();
+
+         foreach($array_post_id[0] as $id_user){
+             $array_ids[]=$id_user->post_id;
+         }
+
+         
+         $post = Post::all()->where('id', $array_ids[0]);
+         
+         $array_post= array($post);
+
+         $array_auxiliar = array();
+
+         foreach($array_post[0] as $post){
+            $array_auxiliar[]=$post->comentarios;
+            $array_auxiliar[]=$post->id;
+         }
+
+         $contadorComentario=$array_auxiliar[0];
+         $id_post_2=$array_auxiliar[1];
+
+         DB::table('posts')
+         ->where('id', $id_post_2) 
+         ->update(['comentarios' => $contadorComentario-1]);
+
+        //Habria que borrar el comentario de la tabla Comments
+         Comment::where('id', $id)->delete();
+            
+         return redirect()->route('dashboard')->with(['status' => 'Comentario borrado correctamente']);
+
+      }
+
+      /**
+      * Funcion que muestra la vista de form para editar un comentario
+      * @param id id del comentario
+      * @return view form de creacion de comentarios
+      */
+
+     public function editComment ($id){
+
+        $comment= Comment::findOrFail($id);
+        return view('comment.edit', ["comment"=>$comment] );
+
+     }
+
+
+     /**
+      * Funcion para actualizar el comentario
+      * @param id id del comentario
+      * @param request informacion del formulario
+      * @return dashboard avisando el exito de la accion
+      */
+      public function updateComment(Request $request, $id)
+      {
+
+        //Se guarda los datos y se actualiza el comentario de esa id
+        $dateComment = request()->except(['_token', '_method']);
+        Comment::where('id', '=',$id)->update($dateComment);
+
+        return redirect()->route('dashboard')->with(['status' => 'Comentario actualizado correctamente']);
+
       }
 
 

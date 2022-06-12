@@ -87,3 +87,9 @@ Route::get('/posts/createComment/{id}', [PostController::class,'createComment'])
 Route::get('/posts/saveComment', [PostController::class,'saveComment'])->middleware(['auth'])->name('posts.saveComment');
 //Mostrar comentarios de ese post
 Route::get('/posts/showComments/{post}', [PostController::class,'showComments'])->middleware(['auth'])->name('posts.showComments');
+//Borrar comentarios
+Route::get('/posst/destroyComments/{id}',[PostController::class, 'destroyComments'])->middleware(['auth'])->name('posts.destroyComments');
+//Ruta para editar comentario
+Route::get('/posts/editComment/{id}', [PostController::class,'editComment'])->middleware(['auth'])->name('posts.editComment');
+//Ruta para actualizar comentario
+Route::get('/posts/updateComment/{id}',[PostController::class, 'updateComment'])->middleware(['auth'])->name('posts.updateComment');

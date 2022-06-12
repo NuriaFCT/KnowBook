@@ -80,13 +80,13 @@ class UserController extends Controller
         //Numero de seguidores
         $seguidores = DB::table('followers')
             ->select(DB::raw('count(followers.id) as contadorSeguidores'))
-            ->where('followers.user_id', '=', Auth::user()->id)
+            ->where('followers.id_user_follower', '=', Auth::user()->id)
             ->get();
 
         //Numeros de seguidos o siguiendo
         $siguiendo = DB::table('followers')
-            ->select(DB::raw('count(followers.id_user_follower) as contadorSeguidos'))
-            ->where('followers.id_user_follower', '=', Auth::user()->id)
+            ->select(DB::raw('count(followers.id) as contadorSeguidos'))
+            ->where('followers.user_id', '=', Auth::user()->id)
             ->get();
 
         return view('user.profile', ['user' => $user, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo]);
@@ -134,7 +134,7 @@ class UserController extends Controller
         foreach( $seguidores_filtrado as $id_seguidor){
           
             if($id_seguidor->id_user_follower==$id){
-                //dd("Siguiendo");
+               
                 $s = "siguiendo";         
 
             }
@@ -166,9 +166,8 @@ class UserController extends Controller
         //Numeros de seguidos o siguiendo
         $siguiendo = DB::table('followers')
             ->select(DB::raw('count(followers.id) as contadorSeguidos'))
-            ->where('followers.user_id', '=', $id_logueado)
+            ->where('followers.user_id', '=', $id)
             ->get();
-
         return view('user.profile', ['user' => $user, "posts" => $posts, "numposts" => $numposts, "seguidores" => $seguidores, "siguiendo" => $siguiendo, "s" => $s]);
     }
 

@@ -53,19 +53,24 @@ Si es usuario logueado, podra editarse-->
                             <td>Publicaciones</td>
                             <td>Seguidores</td>
                             <td>Seguidos</td>
-                        </tr>
-                        <!--Name-->
-                        <tr class="font-bold" style="height: 15%">
-                            <td colspan="3">{{ $user->name }}</td>
-                        </tr>
-                        <!--Bio-->
-                        <tr style="height: 30%">
-                            <td colspan="3">{{ $user->biography }}</td>
-                        </tr>
+                        </tr>                       
+                        
                     </table>
+
+
+                
+
+                    
 
                     <!--Opciones-->
                     <table class="overflow-hidden  mb-4" style="text-align:center; width:100%; height: 50px">
+
+                            <!--Name-->
+                    <div style="height: 15%; margin-top: 50px;">
+                    
+                        <p colspan="3" style=" margin-bottom: 20px;" ><strong>Nombre de usuario:</strong> {{ $user->name }}  </p>                
+
+                    </div>
 
                         <tr>
 
@@ -79,7 +84,7 @@ Si es usuario logueado, podra editarse-->
                                         <a href="{{ route('config') }}">
                                             <input type="submit"
                                                 class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                style="background-color: #a05a2c;" value="Editar">
+                                                style="background-color: #a05a2c;" value="Editar usuario">
                                         </a>
                                     </td>
 
@@ -88,7 +93,7 @@ Si es usuario logueado, podra editarse-->
                                         <a href="{{ route('user.destroy', $user->id) }}">
                                             <input type="submit"
                                                 class="mb-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                style="background-color: #a05a2c;" value="Eliminar">
+                                                style="background-color: #a05a2c;" value="Eliminar usuario">
                                         </a>
                                     </td>
 
@@ -100,10 +105,11 @@ Si es usuario logueado, podra editarse-->
                                     </td>
                                     <!-- Eliminar -->
                                     <td>
+                                        
                                         <a href="{{ route('user.destroy', $user->id) }}">
                                             <input type="submit"
                                                 class="mb-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                style="background-color: #a05a2c;" value="Eliminar">
+                                                style="background-color: #a05a2c;" value="Eliminar usuario">
                                         </a>
                                     </td>
                                 @endif
@@ -117,7 +123,7 @@ Si es usuario logueado, podra editarse-->
                                         <a href="{{ route('config') }}">
                                             <input type="submit"
                                                 class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                style="background-color: #a05a2c;" value="Editar">
+                                                style="background-color: #a05a2c;" value="Editar usuario">
                                         </a>
                                     </td>
                                     <!--Eliminar la cuenta-->
@@ -125,7 +131,7 @@ Si es usuario logueado, podra editarse-->
                                         <a href="{{ route('user.destroy', $user->id) }}">
                                             <input type="submit"
                                                 class="mb-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                                                style="background-color: #a05a2c;" value="Eliminar">
+                                                style="background-color: #a05a2c;" value="Eliminar usuario">
                                         </a>
                                     </td>
                                     <!-- No es su perfil, podra seguirlo-->
@@ -153,6 +159,13 @@ Si es usuario logueado, podra editarse-->
                             @endif
                             <!--Rol del usuario logueado-->
                         </tr>
+
+                        <div style="height: 15%; margin-top: 20px;">
+
+                            <h3 colspan="3" style="font-weight: bolder;">Biografia:</h3>
+    
+                                <p colspan="3" style="margin-bottom:50px">{{ $user->biography }}</p>
+                        </div>
                     </table>
 
 

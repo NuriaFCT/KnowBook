@@ -46,16 +46,17 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-        //dd($request);
+        //dd($request->role_id);
 
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
             'role_id'=> $request->role_id,
+            'image_profile'=> $request->image_profile,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+           
         ]);
-        //dd($user);
-
+     
         event(new Registered($user));
 
         Auth::login($user);
