@@ -72,6 +72,8 @@ class PostController extends Controller
         }
 
         //Se guarda en el array
+        $datePost['likes']=0;
+        $datePost['comentarios']=0;
         $datePost['user_id'] = $id;
         $datePost['date_publication'] = Carbon::now(); //se genera la fecha actual
 
